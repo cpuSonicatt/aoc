@@ -2,11 +2,11 @@ import java.io.File
 import kotlin.math.abs
 
 fun main() {
-    println(partOne())
-    println(partTwo())
+    println(onePartOne16())
+    println(twoPartTwo16())
 }
 
-fun partOne(): Int {
+fun onePartOne16(): Int {
     val dirs: List<String> = File("2016/1/i").readLines()[0].split(", ")
     val go: List<Pair<Int, Int>> = listOf(Pair(0,1), Pair(1,0), Pair(0,-1), Pair(-1, 0)) // N E S W
 
@@ -28,7 +28,7 @@ fun partOne(): Int {
     return abs(xy.first) + abs(xy.second)
 }
 
-fun partTwo(): Int {
+fun twoPartTwo16(): Int {
     val dirs: List<String> = File("2016/1/i").readLines()[0].split(", ")
     val go: List<Pair<Int, Int>> = listOf(Pair(0,1), Pair(1,0), Pair(0,-1), Pair(-1, 0)) // N E S W
     val visited: MutableSet<Pair<Int, Int>> = mutableSetOf()
