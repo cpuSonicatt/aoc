@@ -7,7 +7,7 @@ fun main() {
     println(s.partTwo())
 }
 
-class DayOne2016 constructor(private val path: String) {
+class DayOne2016(private val path: String) {
 
     fun partOne(): Int {
         val dirs: List<String> = File(path).readLines()[0].split(", ")

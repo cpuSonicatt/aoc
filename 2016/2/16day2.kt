@@ -5,7 +5,7 @@ fun main() {
     println(s.partOne())
 }
 
-class DayTwo2016 constructor(private val path: String) {
+class DayTwo2016(private val path: String) {
 
     fun partOne(): String {
         val moves: List<String> = File(path).readLines()
