@@ -10,10 +10,7 @@ fun main() {
 class DayTwo2023(private val path: String) {
 
     fun partOne(): Int {
-        val games: List<String> = File(path).readLines()
-        var legal = 0
-
-        games.forEach {
+        return File(path).readLines().sumOf {
             val (gameNum, cubes) = Regex("Game (\\d+): (\\d+ .+)").find(it)!!.destructured
             if (!cubes.split("; ").map { r ->
                     r.split(", ").map { cu ->
@@ -22,22 +19,16 @@ class DayTwo2023(private val path: String) {
                                 || c == "green" && n.toInt() <= 13
                                 || c == "blue" && n.toInt() <= 14
                     }
-                }.flatten().any{x -> !x}) legal += gameNum.toInt()
+                }.flatten().any { x -> !x }) gameNum.toInt() else 0
         }
-        return legal
     }
 
     fun partTwo(): Int {
-        val games: List<String> = File(path).readLines()
-
-        var total = 0
-
-        games.forEach {
+        return File(path).readLines().sumOf {
             var mR = 0
             var mG = 0
             var mB = 0
-            val (gameNum, cubes) = Regex("Game (\\d+): (\\d+ .+)").find(it)!!.destructured
-            var x = cubes.split("; ").map { r ->
+            Regex("Game \\d+: (\\d+ .+)").find(it)!!.value.split("; ").map { r ->
                 r.split(", ").map { cu ->
                     val (n, c) = cu.split(" ")
                     when (c) {
@@ -47,9 +38,7 @@ class DayTwo2023(private val path: String) {
                     }
                 }
             }
-
-            total += (mR * mG * mB)
+            (mR * mG * mB)
         }
-        return total
     }
 }
