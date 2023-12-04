@@ -1,6 +1,5 @@
 import java.io.File
 import kotlin.math.pow
-import kotlin.time.measureTime
 
 fun main() {
 
@@ -11,54 +10,38 @@ fun main() {
 
 class DayFour2023(private val path: String) {
 
+    private val regex = Regex("(\\d+): +(.+) \\| +(.+)")
+
     fun partOne(): Int {
+
         return File(path).readLines().sumOf {
-            val (winning, chosen) = Regex("Card +\\d+: (.+)")
-                .find(it)!!
-                .groups[1]!!.value
-                .split(" | ")
-                .map { n ->
-                    Regex("\\d+").findAll(n).toList().map { m ->
-                        m.value
-                    }
-                }.toList()
+            val (_, winning, chosen) = ticketOf(regex.find(it)!!.groupValues.toList())
 
-            val winners = chosen.intersect(winning.toSet())
-            if (winners.isNotEmpty()) (2.0.pow(winners.size - 1).toInt()) else 0
-
+            calcWin(winning, chosen).let { s ->
+                if (s != 0) (2.0.pow(s - 1).toInt()) else 0
+            }
         }
     }
 
-    private var total = 0
-
-    // This takes ~40 seconds and is bad.
     fun partTwo(): Int {
 
-        val games: MutableList<String> = File(path).readLines().toMutableList()
-        process(games, games)
-        return total
+        val games = File(path).readLines()
+        val map: MutableMap<Int, Int> = IntRange(1,games.size).toList().associateWith { 1 }.toMutableMap()
+        games.forEach {
+
+            val (id, winning, chosen) = ticketOf(regex.find(it)!!.groupValues.toList())
+
+            (1..calcWin(winning, chosen)).forEach { x -> map[id+x] = map[id+x]!! + map[id]!! }
+        }
+        return map.values.sum()
     }
 
-    private fun process(g: MutableList<String>, l: MutableList<String>) {
-        if (l.isNotEmpty()) {
-            total += l.size
-        }
-        l.forEach {
-            val (idl, winning, chosen) = Regex("(\\d+: .+)")
-                .find(it)!!
-                .groups[1]!!.value
-                .split(Regex("[:|]"))
-                .map { n ->
-                    Regex("\\d+").findAll(n).toList().map { m ->
-                        m.value
-                    }
-                }
-            val i = idl[0].toInt()
-            val amnt = calcWin(winning, chosen)
-            process(g, g.subList(i, i + amnt))
-        }
-    }
+    private fun calcWin(w: List<Int>, c: List<Int>): Int = c.intersect(w.toSet()).size
 
-    private fun calcWin(w: List<String>, c: List<String>): Int = c.intersect(w.toSet()).size
+    private fun ticketOf(t: List<String>): Triple<Int, List<Int>, List<Int>> = Triple(
+            t[1].toInt(),
+            t[2].split(Regex(" +")).map { it.toInt() },
+            t[3].split(Regex(" +")).map { it.toInt() }
+        )
 
 }
