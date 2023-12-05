@@ -3,7 +3,7 @@ import java.io.File
 fun main() {
 
     val s = DayThree2023("2023/3/i")
-//    println(s.partOne())
+    println(s.partOne())
     println(s.partTwo())
 }
 

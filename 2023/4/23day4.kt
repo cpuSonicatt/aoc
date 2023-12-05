@@ -2,7 +2,6 @@ import java.io.File
 import kotlin.math.pow
 
 fun main() {
-
     val s = DayFour2023("2023/4/i")
     println(s.partOne())
     println(s.partTwo())
