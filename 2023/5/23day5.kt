@@ -9,6 +9,7 @@ fun main() {
 
 class DayFive2023(private val path: String) {
 
+    // works in theory, not to be used with a real input
     fun partOne(): Long {
         val info = File(path).readText().split(Regex("\\r?\\n\\r?\\n")).map { it.replace(Regex("\\r?\\n"), "  ") }
         val seeds: List<Long> = Regex("\\d+").findAll(info[0]).toList().map { it.value.toLong() }
@@ -16,14 +17,13 @@ class DayFive2023(private val path: String) {
         val res: MutableList<MutableMap<Long, Long>> = mutableListOf()
 
         info.drop(1).forEach {
-            println(it)
             val map: MutableMap<Long, Long> = mutableMapOf()
             it.split("  ").drop(1).forEach { sam ->
                 val (d, s, l) = sam.split(" ").map { n -> n.toLong() }
-                val dr = (d..< d+l).toList()
-                val sr = (s..< s+l).toList()
-                (0..<l).forEach { i ->
-                    map[sr[i.toInt()]] = dr[i.toInt()]
+                val dr = (d..< d+l)
+                val sr = (s..< s+l)
+                (0..<l.toInt()).forEach { i ->
+                    map[sr.elementAt(i)] = dr.elementAt(i)
                 }
             }
             res.add(map)
