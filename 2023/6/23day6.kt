@@ -1,6 +1,4 @@
 import java.io.File
-import java.util.*
-
 fun main() {
     val s = DaySix2023("2023/6/i")
     println(s.partOne())
@@ -45,5 +43,3 @@ class DaySix2023(private val path: String) {
     }
 
 }
-
-// (time - held) * held
